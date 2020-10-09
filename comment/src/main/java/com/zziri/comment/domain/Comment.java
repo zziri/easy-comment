@@ -31,6 +31,14 @@ public class Comment {
 
     private String content;
 
+    public Comment(@Valid Date date, String author, String url, String content, boolean deleted) {
+        this.date = date;
+        this.author = author;
+        this.url = url;
+        this.content = content;
+        this.deleted = deleted;
+    }
+
     @ColumnDefault("0")
     private boolean deleted;
 }
