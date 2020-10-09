@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Data
 @Where(clause = "deleted = false")
 public class Comment {
