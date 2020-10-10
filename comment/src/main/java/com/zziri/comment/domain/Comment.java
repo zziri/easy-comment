@@ -5,10 +5,8 @@ import com.zziri.comment.domain.dto.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -25,7 +23,6 @@ public class Comment {
 
     @Valid
     @Embedded
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'HH:mm:ss")
     private Date date;
 
     private String author;
