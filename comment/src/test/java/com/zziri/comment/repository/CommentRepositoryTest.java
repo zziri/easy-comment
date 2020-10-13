@@ -26,10 +26,31 @@ class CommentRepositoryTest {
     }
 
     @Test
-    void crud() {
+    void findByUrl() {
         List<Comment> comments = commentRepository.findByUrl("zziri.service.comment");
 
         assertThat(comments.size()).isEqualTo(2);
         assertThat(comments.get(0).getAuthor()).isEqualTo("jihoon");
+    }
+
+    @Test
+    void modify() {
+        Comment firstComment = commentRepository.findAll().get(0);
+        Long id = firstComment.getId();
+        String content = firstComment.getContent() + " modified";
+
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(String.format("id가 %d인 comment가 존재하지 않습니다", id))
+        );
+
+        comment.setContent(content);
+        commentRepository.save(comment);
+
+        Comment result = commentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(String.format("id가 %d인 comment가 존재하지 않습니다", id))
+        );
+
+        assertThat(result.getContent()).isEqualTo(content);
+        System.out.println(String.format("[jihoon] %s", result.getContent()));
     }
 }
