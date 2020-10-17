@@ -1,7 +1,4 @@
 # easy-comment
 
-간단한 댓글 서비스를 구현하는 spring boot project 입니다
-
-
-
+spring boot를 공부하고 간단한 댓글 서비스를 구현하면서 실습합니다
 
