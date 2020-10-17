@@ -17,8 +17,8 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void post(@RequestBody CommentDto commentDto) {
-        commentService.put(commentDto);
+    public Comment post(@RequestBody CommentDto commentDto) {
+        return commentService.put(commentDto);
     }
 
     @GetMapping

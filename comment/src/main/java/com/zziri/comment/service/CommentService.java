@@ -15,8 +15,8 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public void put(CommentDto commentDto) {
-        commentRepository.save(Comment.fromDto(commentDto));
+    public Comment put(CommentDto commentDto) {
+        return commentRepository.save(Comment.fromDto(commentDto));
     }
 
     public void put(Comment comment) {
@@ -29,5 +29,9 @@ public class CommentService {
 
     public List<Comment> getCommentsAll() {
         return commentRepository.findAll();
+    }
+
+    public void clear() {
+        commentRepository.deleteAll();
     }
 }

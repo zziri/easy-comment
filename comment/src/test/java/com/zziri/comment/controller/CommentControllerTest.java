@@ -36,6 +36,7 @@ class CommentControllerTest {
     @BeforeEach
     void beforeEach() {
         mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
+        commentService.clear();
     }
 
     @Test
@@ -59,7 +60,10 @@ class CommentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commentJson))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.author").value(input.getAuthor()))
+                .andExpect(jsonPath("$.url").value(input.getUrl()))
+                .andExpect(jsonPath("$.content").value(input.getContent()));
 
         Comment result = commentService.getCommentsAll().get(0);
 
