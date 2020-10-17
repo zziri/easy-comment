@@ -70,7 +70,7 @@ class CommentControllerTest {
     }
 
     @Test
-    void getCommentsByUrl() throws Exception {
+    void getComments() throws Exception {
         LocalDateTime now = LocalDateTime.now();
         Comment input = new Comment(
                 Date.of(now),
@@ -82,7 +82,7 @@ class CommentControllerTest {
 
         // request test
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/comment/url")
+                MockMvcRequestBuilders.get("/api/comment")
                         .param("url", "www.naver.com"))
                 .andDo(print())
                 .andExpect(status().isOk())

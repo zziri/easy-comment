@@ -21,7 +21,7 @@ public class CommentController {
         commentService.put(commentDto);
     }
 
-    @GetMapping("/url")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Comment> get(String url) {
         return commentService.getCommentsByUrl(url);
