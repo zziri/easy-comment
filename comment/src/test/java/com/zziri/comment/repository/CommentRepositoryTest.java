@@ -21,6 +21,7 @@ class CommentRepositoryTest {
 
     @BeforeEach
     void before() {
+        commentRepository.deleteAll();
         commentRepository.save(new Comment(Date.of(LocalDateTime.now()), "jihoon", "zziri.service.comment", "hello hyewon"));
         commentRepository.save(new Comment(Date.of(LocalDateTime.now()), "hyewon", "zziri.service.comment", "hello jihoon"));
     }
