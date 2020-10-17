@@ -31,18 +31,18 @@ public class Comment {
 
     private String content;
 
-    public Comment(@Valid Date date, String author, String url, String content, boolean deleted) {
+    public Comment(@Valid Date date, String author, String url, String content) {
         this.date = date;
         this.author = author;
         this.url = url;
         this.content = content;
-        this.deleted = deleted;
+        this.deleted = false;
     }
 
     @ColumnDefault("0")
     private boolean deleted;
 
     static public Comment fromDto(CommentDto commentDto) {
-        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), false);
+        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent());
     }
 }

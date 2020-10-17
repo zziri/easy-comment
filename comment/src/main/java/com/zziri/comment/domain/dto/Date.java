@@ -29,4 +29,9 @@ public class Date {
     public static Date of(LocalDateTime time) {
         return new Date(time);
     }
+
+    @Override
+    public String toString() {
+        return LocalDateTime.of(this.year, this.month, this.day, this.hour, this.min, this.sec).toString();
+    }
 }
