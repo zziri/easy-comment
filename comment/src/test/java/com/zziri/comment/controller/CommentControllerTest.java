@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
@@ -45,12 +46,13 @@ class CommentControllerTest {
                 "comment.zziri.com",
                 "posted by postman");
 
-        String commentJson = String.format("{\n" +
-                "\t\"date\":\"%s\",\n" +
-                "\t\"author\":\"%s\",\n" +
-                "\t\"url\":\"%s\",\n" +
-                "\t\"content\":\"%s\"\n" +
-                "}\n", input.getDate(), input.getAuthor(), input.getUrl(), input.getContent());
+        String commentJson = String.format(
+                "{\n" +
+                        "\t\"date\":\"%s\",\n" +
+                        "\t\"author\":\"%s\",\n" +
+                        "\t\"url\":\"%s\",\n" +
+                        "\t\"content\":\"%s\"\n" +
+                        "}\n", input.getDate(), input.getAuthor(), input.getUrl(), input.getContent());
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/comment")
@@ -67,4 +69,31 @@ class CommentControllerTest {
         assertThat(result.getDate()).isEqualTo(input.getDate());
     }
 
+    @Test
+    void getCommentsByUrl() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        Comment input = new Comment(
+                Date.of(now),
+                "jihoon",
+                "www.naver.com",
+                "get comment by url test!");
+
+        commentService.put(input);
+
+        // request test
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/comment/url")
+                        .param("url", "www.naver.com"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].author").value("jihoon"))
+                .andExpect(jsonPath("$[0].content").value("get comment by url test!"))
+                .andExpect(jsonPath("$[0].url").value("www.naver.com"))
+                .andExpect(jsonPath("$[0].date.year").value(now.getYear()))
+                .andExpect(jsonPath("$[0].date.month").value(now.getMonthValue()))
+                .andExpect(jsonPath("$[0].date.day").value(now.getDayOfMonth()))
+                .andExpect(jsonPath("$[0].date.hour").value(now.getHour()))
+                .andExpect(jsonPath("$[0].date.min").value(now.getMinute()))
+                .andExpect(jsonPath("$[0].date.sec").value(now.getSecond()));
+    }
 }

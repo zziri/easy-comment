@@ -19,6 +19,10 @@ public class CommentService {
         commentRepository.save(Comment.fromDto(commentDto));
     }
 
+    public void put(Comment comment) {
+        commentRepository.save(comment);
+    }
+
     public List<Comment> getCommentsByUrl(String url) {
         return commentRepository.findByUrl(url);
     }
