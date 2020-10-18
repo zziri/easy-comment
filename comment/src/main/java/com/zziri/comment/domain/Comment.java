@@ -39,6 +39,13 @@ public class Comment {
         this.deleted = false;
     }
 
+    public Comment(String author, String url, String content) {
+        this.author = author;
+        this.url = url;
+        this.content = content;
+        this.deleted = false;
+    }
+
     @ColumnDefault("0")
     private boolean deleted;
 

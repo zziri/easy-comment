@@ -75,14 +75,15 @@ class CommentControllerTest {
 
     @Test
     void getComments() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
         Comment input = new Comment(
-                Date.of(now),
                 "jihoon",
                 "www.naver.com",
                 "get comment by url test!");
 
         commentService.put(input);
+
+        LocalDateTime time = LocalDateTime.of(input.getDate().getYear(), input.getDate().getMonth(), input.getDate().getDay(),
+                input.getDate().getHour(), input.getDate().getMin(), input.getDate().getSec());
 
         // request test
         mockMvc.perform(
@@ -93,11 +94,11 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$[0].author").value("jihoon"))
                 .andExpect(jsonPath("$[0].content").value("get comment by url test!"))
                 .andExpect(jsonPath("$[0].url").value("www.naver.com"))
-                .andExpect(jsonPath("$[0].date.year").value(now.getYear()))
-                .andExpect(jsonPath("$[0].date.month").value(now.getMonthValue()))
-                .andExpect(jsonPath("$[0].date.day").value(now.getDayOfMonth()))
-                .andExpect(jsonPath("$[0].date.hour").value(now.getHour()))
-                .andExpect(jsonPath("$[0].date.min").value(now.getMinute()))
-                .andExpect(jsonPath("$[0].date.sec").value(now.getSecond()));
+                .andExpect(jsonPath("$[0].date.year").value(time.getYear()))
+                .andExpect(jsonPath("$[0].date.month").value(time.getMonthValue()))
+                .andExpect(jsonPath("$[0].date.day").value(time.getDayOfMonth()))
+                .andExpect(jsonPath("$[0].date.hour").value(time.getHour()))
+                .andExpect(jsonPath("$[0].date.min").value(time.getMinute()))
+                .andExpect(jsonPath("$[0].date.sec").value(time.getSecond()));
     }
 }

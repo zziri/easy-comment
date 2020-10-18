@@ -2,6 +2,7 @@ package com.zziri.comment.service;
 
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class CommentService {
     }
 
     public void put(Comment comment) {
+        comment.setDate(Date.of(LocalDateTime.now()));
         commentRepository.save(comment);
     }
 
