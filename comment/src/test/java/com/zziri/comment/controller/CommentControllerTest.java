@@ -101,4 +101,30 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$[0].date.min").value(time.getMinute()))
                 .andExpect(jsonPath("$[0].date.sec").value(time.getSecond()));
     }
+
+    @Test
+    void modifyComment() throws Exception {
+        Comment comment = new Comment(
+                "jihoon",
+                "zziri.com",
+                "origin"
+        );
+
+        commentService.put(comment);
+
+        Long id = commentService.getCommentsAll().get(0).getId();
+        String content = "modified";
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/api/comment")
+                        .param("id", id.toString())
+                        .param("content", content)
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.author").value("jihoon"))
+                .andExpect(jsonPath("$.url").value("zziri.com"))
+                .andExpect(jsonPath("$.content").value(content))
+                .andExpect(jsonPath("$.id").value(id.toString()));
+    }
 }

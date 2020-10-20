@@ -26,4 +26,10 @@ public class CommentController {
     public List<Comment> get(String url) {
         return commentService.getCommentsByUrl(url);
     }
+
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Comment patch(@RequestParam("id") Long id, @RequestParam(value = "content") String content) {
+        return commentService.modify(id, content);
+    }
 }

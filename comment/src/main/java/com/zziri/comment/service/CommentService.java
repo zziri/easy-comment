@@ -38,4 +38,14 @@ public class CommentService {
     public void clear() {
         commentRepository.deleteAll();
     }
+
+    public Comment modify(Long id, String content) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(String.format("id가 %d인 comment가 존재하지 않습니다", id))
+        );
+
+        comment.setContent(content);
+
+        return commentRepository.save(comment);
+    }
 }
