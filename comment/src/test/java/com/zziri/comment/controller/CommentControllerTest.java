@@ -127,4 +127,27 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.content").value(content))
                 .andExpect(jsonPath("$.id").value(id.toString()));
     }
+
+    @Test
+    void deleteComment() throws Exception {
+        Comment origin = new Comment(
+                "author",
+                "this is url",
+                "will be delete"
+        );
+
+        commentService.put(origin);
+
+        Comment target = commentService.getCommentsAll().get(0);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/comment")
+                .param("id", target.getId().toString())
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.author").value(origin.getAuthor()))
+                .andExpect(jsonPath("$.url").value(origin.getUrl()))
+                .andExpect(jsonPath("$.content").value(origin.getContent()));
+    }
 }
