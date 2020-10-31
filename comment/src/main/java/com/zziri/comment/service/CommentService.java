@@ -48,4 +48,8 @@ public class CommentService {
 
         return commentRepository.save(comment);
     }
+
+    public Comment delete(Long id) {
+        return null;
+    }
 }

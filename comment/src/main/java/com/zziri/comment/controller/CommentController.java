@@ -32,4 +32,10 @@ public class CommentController {
     public Comment patch(@RequestParam("id") Long id, @RequestParam(value = "content") String content) {
         return commentService.modify(id, content);
     }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Comment delete(@RequestParam("id") Long id) {
+        return commentService.delete(id);
+    }
 }
