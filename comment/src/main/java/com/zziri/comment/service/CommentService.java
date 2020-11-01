@@ -27,6 +27,13 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    public Comment getCommentById(Long id) {
+        Comment ret = commentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(String.format("id가 %d인 comment가 존재하지 않습니다", id))
+        );
+        return ret.isDeleted() ? null : ret;
+    }
+
     public List<Comment> getCommentsByUrl(String url) {
         return commentRepository.findByUrl(url);
     }
@@ -40,9 +47,10 @@ public class CommentService {
     }
 
     public Comment modify(Long id, String content) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new RuntimeException(String.format("id가 %d인 comment가 존재하지 않습니다", id))
-        );
+        Comment comment = this.getCommentById(id);
+        if (comment == null) {
+            return null;
+        }
 
         comment.setContent(content);
 
@@ -50,6 +58,13 @@ public class CommentService {
     }
 
     public Comment delete(Long id) {
-        return null;
+        Comment comment = this.getCommentById(id);
+        if (comment == null) {
+            return null;
+        }
+
+        comment.setDeleted(true);
+
+        return commentRepository.save(comment);
     }
 }

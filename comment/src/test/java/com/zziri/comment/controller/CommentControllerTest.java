@@ -13,11 +13,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -149,5 +148,10 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.author").value(origin.getAuthor()))
                 .andExpect(jsonPath("$.url").value(origin.getUrl()))
                 .andExpect(jsonPath("$.content").value(origin.getContent()));
+
+        assertThat(commentService.getCommentById(target.getId())).isEqualTo(null);
+
+        List<Comment> result = commentService.getCommentsByUrl("this is url");
+        assertThat(result.size()).isEqualTo(0);
     }
 }

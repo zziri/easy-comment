@@ -33,4 +33,13 @@ class CommentServiceTest {
         assertThat(commentList.get(0).getAuthor()).isEqualTo("jihoon");
     }
 
+    @Test
+    void deleted() {
+        commentService.put(new Comment("author", "this is url", "hello world"));
+        Comment comment = commentService.getCommentsAll().get(0);
+        commentService.delete(comment.getId());
+        assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
+        List<Comment> result = commentService.getCommentsByUrl("this is url");
+        assertThat(result.size()).isEqualTo(0);
+    }
 }
