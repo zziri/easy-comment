@@ -42,4 +42,15 @@ class CommentServiceTest {
         List<Comment> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
     }
+
+    @Test
+    void modify() {
+        Comment comment = new Comment("author", "url", "content");
+        commentService.put(comment);
+        Long id = commentService.getCommentsAll().get(0).getId();
+        commentService.modify(id, "modified content");
+
+        Comment modified = commentService.getCommentById(id);
+        assertThat(modified.getContent()).isEqualTo("modified content");
+    }
 }
