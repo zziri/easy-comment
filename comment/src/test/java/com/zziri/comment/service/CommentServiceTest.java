@@ -53,4 +53,25 @@ class CommentServiceTest {
         Comment modified = commentService.getCommentById(id);
         assertThat(modified.getContent()).isEqualTo("modified content");
     }
+
+    @Test
+    void getDeleted() {
+        // To Do : 삭제된 것을 가져오는지 테스트, 가져오지 않아야 성공
+        Comment origin = new Comment(
+                "author",
+                "url",
+                "content"
+        );
+
+        commentService.put(origin);
+        Long id = commentService.getCommentsAll().get(0).getId();
+
+        commentService.delete(id);
+
+        List<Comment> result = commentService.getCommentsByUrl("url");
+        assertThat(result.size()).isEqualTo(0);
+
+        Comment comment = commentService.getCommentById(id);
+        assertThat(comment).isEqualTo(null);
+    }
 }
