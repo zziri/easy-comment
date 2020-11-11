@@ -19,6 +19,11 @@ public class CommentService {
 
     public Comment put(CommentDto commentDto) {
         commentDto.setDate(LocalDateTime.now());
+        commentDto.setUrl(
+                commentDto.getUrl()
+                        .replace("https://", "")
+                        .replace("http://", "")
+        );
         return commentRepository.save(Comment.fromDto(commentDto));
     }
 
@@ -35,7 +40,11 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByUrl(String url) {
-        return commentRepository.findByUrl(url);
+        return commentRepository.findByUrl(
+                url
+                        .replace("http://", "")
+                        .replace("https://", "")
+        );
     }
 
     public List<Comment> getCommentsAll() {
