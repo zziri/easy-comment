@@ -84,7 +84,6 @@ class CommentControllerTest {
         LocalDateTime time = LocalDateTime.of(input.getDate().getYear(), input.getDate().getMonth(), input.getDate().getDay(),
                 input.getDate().getHour(), input.getDate().getMin(), input.getDate().getSec());
 
-        // request test
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/comment")
                         .param("url", "www.naver.com"))

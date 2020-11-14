@@ -27,7 +27,7 @@ class CommentServiceTest {
 
     @Test
     void put() {
-        commentService.put(CommentDto.of(LocalDateTime.now(), "jihoon", "comment.zziri.com", "Hello!@#!#@"));
+        commentService.put(CommentDto.of(LocalDateTime.now(), "jihoon", "comment.zziri.com", "Hello!@#!#@", ""));
         List<Comment> commentList = commentService.getCommentsAll();
         assertThat(commentList.size()).isEqualTo(1);
         assertThat(commentList.get(0).getAuthor()).isEqualTo("jihoon");
@@ -56,7 +56,6 @@ class CommentServiceTest {
 
     @Test
     void getDeleted() {
-        // To Do : 삭제된 것을 가져오는지 테스트, 가져오지 않아야 성공
         Comment origin = new Comment(
                 "author",
                 "url",

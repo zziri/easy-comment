@@ -31,6 +31,8 @@ public class Comment {
 
     private String content;
 
+    private String password;
+
     public Comment(@Valid Date date, String author, String url, String content) {
         this.date = date;
         this.author = author;
