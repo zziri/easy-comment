@@ -27,7 +27,7 @@ class CommentServiceTest {
 
     @Test
     void put() {
-        commentService.put(CommentDto.of(LocalDateTime.now(), "jihoon", "comment.zziri.com", "Hello!@#!#@", ""));
+        commentService.put(CommentDto.of(LocalDateTime.now(), "jihoon", "comment.zziri.com", "Hello!@#!#@", "1111"));
         List<Comment> commentList = commentService.getCommentsAll();
         assertThat(commentList.size()).isEqualTo(1);
         assertThat(commentList.get(0).getAuthor()).isEqualTo("jihoon");
@@ -35,7 +35,7 @@ class CommentServiceTest {
 
     @Test
     void deleted() {
-        commentService.put(new Comment("author", "this is url", "hello world"));
+        commentService.put(new Comment("author", "this is url", "hello world", "1111"));
         Comment comment = commentService.getCommentsAll().get(0);
         commentService.delete(comment.getId());
         assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
@@ -45,7 +45,7 @@ class CommentServiceTest {
 
     @Test
     void modify() {
-        Comment comment = new Comment("author", "url", "content");
+        Comment comment = new Comment("author", "url", "content", "1111");
         commentService.put(comment);
         Long id = commentService.getCommentsAll().get(0).getId();
         commentService.modify(id, "modified content");
@@ -59,7 +59,8 @@ class CommentServiceTest {
         Comment origin = new Comment(
                 "author",
                 "url",
-                "content"
+                "content",
+                "1111"
         );
 
         commentService.put(origin);

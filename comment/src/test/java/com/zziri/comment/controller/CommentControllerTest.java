@@ -44,7 +44,8 @@ class CommentControllerTest {
                 Date.of(LocalDateTime.now()),
                 "postman",
                 "comment.zziri.com",
-                "posted by postman");
+                "posted by postman",
+                "1111");
 
         String commentJson = String.format(
                 "{\n" +
@@ -77,7 +78,8 @@ class CommentControllerTest {
         Comment input = new Comment(
                 "jihoon",
                 "www.naver.com",
-                "get comment by url test!");
+                "get comment by url test!",
+                "1111");
 
         commentService.put(input);
 
@@ -105,7 +107,8 @@ class CommentControllerTest {
         Comment comment = new Comment(
                 "jihoon",
                 "zziri.com",
-                "origin"
+                "origin",
+                "1111"
         );
 
         commentService.put(comment);
@@ -131,7 +134,8 @@ class CommentControllerTest {
         Comment origin = new Comment(
                 "author",
                 "this is url",
-                "will be delete"
+                "will be delete",
+                "1111"
         );
 
         commentService.put(origin);
