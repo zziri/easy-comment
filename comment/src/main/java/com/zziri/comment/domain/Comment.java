@@ -31,29 +31,29 @@ public class Comment {
 
     private String content;
 
-    private String password;
+    private String hashCode;
 
-    public Comment(@Valid Date date, String author, String url, String content, String password) {
+    public Comment(@Valid Date date, String author, String url, String content, String hashCode) {
         this.date = date;
         this.author = author;
         this.url = url;
         this.content = content;
         this.deleted = false;
-        this.password = password;
+        this.hashCode = hashCode;
     }
 
-    public Comment(String author, String url, String content, String password) {
+    public Comment(String author, String url, String content, String hashCode) {
         this.author = author;
         this.url = url;
         this.content = content;
         this.deleted = false;
-        this.password = password;
+        this.hashCode = hashCode;
     }
 
     @ColumnDefault("0")
     private boolean deleted;
 
     static public Comment fromDto(CommentDto commentDto) {
-        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), commentDto.getPassword());
+        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), commentDto.getHashCode());
     }
 }

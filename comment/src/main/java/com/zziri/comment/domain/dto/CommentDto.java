@@ -14,5 +14,5 @@ public class CommentDto {
     private String author;
     private String url;
     private String content;
-    private String password;
+    private String hashCode;
 }
