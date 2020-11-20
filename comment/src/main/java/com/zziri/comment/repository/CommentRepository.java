@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByUrl(String url);
-    @Query(value = "select * from comment where comment.id = id and comment.hash_code = hashCode", nativeQuery = true)
-    Comment findByIdHashCode(@Param("id") Long id, @Param("hashCode") String hashCode);
+
+    Comment findByIdAndHashCode(Long id, String hashCode);
 }

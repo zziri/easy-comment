@@ -54,4 +54,16 @@ class CommentRepositoryTest {
         assertThat(result.getContent()).isEqualTo(content);
         System.out.println(String.format("[jihoon] %s", result.getContent()));
     }
+
+    @Test
+    void findByIdAndHashCode() {
+        Comment comment = commentRepository.findAll().get(0);
+        Comment result = commentRepository.findByIdAndHashCode(comment.getId(), comment.getHashCode());
+        assertThat(comment.getId()).isEqualTo(result.getId());
+        assertThat(comment.getAuthor()).isEqualTo(result.getAuthor());
+        assertThat(comment.getUrl()).isEqualTo(result.getUrl());
+
+        result = commentRepository.findByIdAndHashCode(comment.getId(), comment.getHashCode() + "1");
+        assertThat(result).isEqualTo(null);
+    }
 }
