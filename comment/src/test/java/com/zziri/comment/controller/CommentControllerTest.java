@@ -1,7 +1,9 @@
 package com.zziri.comment.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.Date;
+import com.zziri.comment.domain.dto.CommentDto;
 import com.zziri.comment.service.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class CommentControllerTest {
     @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
     private CommentController commentController;
 
     @Autowired
@@ -40,20 +44,9 @@ class CommentControllerTest {
 
     @Test
     void postComment() throws Exception {
-        Comment input = new Comment(
-                Date.of(LocalDateTime.now()),
-                "postman",
-                "comment.zziri.com",
-                "posted by postman",
-                "1111");
+        CommentDto input = CommentDto.of(LocalDateTime.now(), "postman", "comment.zziri.com", "posted by postman", "1111");
 
-        String commentJson = String.format(
-                "{\n" +
-                        "\t\"date\":\"%s\",\n" +
-                        "\t\"author\":\"%s\",\n" +
-                        "\t\"url\":\"%s\",\n" +
-                        "\t\"content\":\"%s\"\n" +
-                        "}\n", input.getDate(), input.getAuthor(), input.getUrl(), input.getContent());
+        String commentJson = toJson(input);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/comment")
@@ -70,7 +63,6 @@ class CommentControllerTest {
         assertThat(result.getAuthor()).isEqualTo(input.getAuthor());
         assertThat(result.getUrl()).isEqualTo(input.getUrl());
         assertThat(result.getContent()).isEqualTo(input.getContent());
-        assertThat(result.getDate()).isEqualTo(input.getDate());
     }
 
     @Test
@@ -156,5 +148,9 @@ class CommentControllerTest {
 
         List<Comment> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
+    }
+
+    private String toJson(CommentDto commentDto) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(commentDto);
     }
 }
