@@ -58,12 +58,12 @@ class CommentRepositoryTest {
     @Test
     void findByIdAndHashCode() {
         Comment comment = commentRepository.findAll().get(0);
-        Comment result = commentRepository.findByIdAndHashCode(comment.getId(), comment.getHashCode());
+        Comment result = commentRepository.findByIdAndPassword(comment.getId(), comment.getPassword());
         assertThat(comment.getId()).isEqualTo(result.getId());
         assertThat(comment.getAuthor()).isEqualTo(result.getAuthor());
         assertThat(comment.getUrl()).isEqualTo(result.getUrl());
 
-        result = commentRepository.findByIdAndHashCode(comment.getId(), comment.getHashCode() + "1");
+        result = commentRepository.findByIdAndPassword(comment.getId(), comment.getPassword() + "1");
         assertThat(result).isEqualTo(null);
     }
 }

@@ -11,5 +11,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByUrl(String url);
 
-    Comment findByIdAndHashCode(Long id, String hashCode);
+    Comment findByIdAndPassword(Long id, String password);
 }

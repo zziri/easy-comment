@@ -1,6 +1,6 @@
 package com.zziri.comment.domain;
 
-import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.domain.dto.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,29 +31,29 @@ public class Comment {
 
     private String content;
 
-    private String hashCode;
+    private String password;
 
-    public Comment(@Valid Date date, String author, String url, String content, String hashCode) {
+    public Comment(@Valid Date date, String author, String url, String content, String password) {
         this.date = date;
         this.author = author;
         this.url = url;
         this.content = content;
         this.deleted = false;
-        this.hashCode = hashCode;
+        this.password = password;
     }
 
-    public Comment(String author, String url, String content, String hashCode) {
+    public Comment(String author, String url, String content, String password) {
         this.author = author;
         this.url = url;
         this.content = content;
         this.deleted = false;
-        this.hashCode = hashCode;
+        this.password = password;
     }
 
     @ColumnDefault("0")
     private boolean deleted;
 
     static public Comment fromDto(CommentDto commentDto) {
-        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), commentDto.getHashCode());
+        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), commentDto.getPassword());
     }
 }

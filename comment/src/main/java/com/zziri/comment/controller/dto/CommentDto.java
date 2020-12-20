@@ -1,4 +1,4 @@
-package com.zziri.comment.domain.dto;
+package com.zziri.comment.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class CommentDto {
     private String author;
     private String url;
     private String content;
-    private String hashCode;
+    private String password;
 }
