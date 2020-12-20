@@ -1,9 +1,9 @@
 package com.zziri.comment.controller;
 
 import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PatchDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.controller.dto.ResponseDto;
-import com.zziri.comment.domain.Comment;
 import com.zziri.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +31,8 @@ public class CommentController {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public Comment patch(@RequestParam("id") Long id, @RequestParam(value = "content") String content) {
-        return commentService.modify(id, content);
+    public ResponseDto patch(@RequestBody PatchDto patchDto, @RequestParam("url") String url) {
+        return commentService.modify(patchDto, url);
     }
 
     @DeleteMapping

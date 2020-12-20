@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PatchDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.service.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -63,7 +61,6 @@ class CommentControllerTest {
     @Test
     void getComments() throws Exception {
         Comment input = getComment();
-        input.setDate(Date.of(LocalDateTime.now()));
         commentService.put(input);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/comment")
@@ -80,20 +77,21 @@ class CommentControllerTest {
 
         commentService.put(comment);
 
-        Long id = commentService.getCommentsAll().get(0).getId();
-        String content = "modified";
+        Comment target = commentService.getCommentsAll().get(0);
+
+        PatchDto patchDto = PatchDto.of(target.getId(), target.getPassword(), "modified content");
 
         mockMvc.perform(
                 MockMvcRequestBuilders.patch("/api/comment")
-                        .param("id", id.toString())
-                        .param("content", content)
+                        .param("url", target.getUrl())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(patchDto))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.author").value("jihoon"))
-                .andExpect(jsonPath("$.url").value("zziri.com"))
-                .andExpect(jsonPath("$.content").value(content))
-                .andExpect(jsonPath("$.id").value(id.toString()));
+                .andExpect(jsonPath("$.author").value(target.getAuthor()))
+                .andExpect(jsonPath("$.content").value("modified content"))
+                .andExpect(jsonPath("$.id").value(target.getId().toString()));
     }
 
     @Test
@@ -125,6 +123,10 @@ class CommentControllerTest {
     }
 
     private String toJson(PostDto dto) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(dto);
+    }
+
+    private String toJson(PatchDto dto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(dto);
     }
 

@@ -1,6 +1,7 @@
 package com.zziri.comment.service;
 
 import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PatchDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
@@ -45,12 +46,9 @@ class CommentServiceTest {
 
     @Test
     void modify() {
-        Comment comment = new Comment("author", "url", "content", "1111");
-        commentService.put(comment);
-        Long id = commentService.getCommentsAll().get(0).getId();
-        commentService.modify(id, "modified content");
-
-        Comment modified = commentService.getCommentById(id);
+        Comment target = commentService.getCommentsAll().get(0);
+        commentService.modify(PatchDto.of(target.getId(), target.getPassword(), "modified content"), target.getUrl());
+        Comment modified = commentService.getCommentById(target.getId());
         assertThat(modified.getContent()).isEqualTo("modified content");
     }
 

@@ -1,10 +1,8 @@
 package com.zziri.comment.service;
 
-import com.zziri.comment.controller.dto.CommentDto;
-import com.zziri.comment.controller.dto.DeleteDto;
-import com.zziri.comment.controller.dto.PostDto;
-import com.zziri.comment.controller.dto.ResponseDto;
+import com.zziri.comment.controller.dto.*;
 import com.zziri.comment.domain.Comment;
+import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +31,7 @@ public class CommentService {
     }
 
     public void put(Comment comment) {
+        comment.setDate(Date.of(LocalDateTime.now()));
         commentRepository.save(comment);
     }
 
@@ -44,9 +43,6 @@ public class CommentService {
     }
 
     public List<ResponseDto> getCommentsByUrl(String url) {
-        url = url
-                .replace("http://", "")
-                .replace("https://", "");
         return commentRepository.findByUrl(url).stream().map(Comment::getResponseDto).collect(Collectors.toList());
     }
 
@@ -58,15 +54,13 @@ public class CommentService {
         commentRepository.deleteAll();
     }
 
-    public Comment modify(Long id, String content) {
-        Comment comment = this.getCommentById(id);
-        if (comment == null) {
-            return null;
-        }
+    public ResponseDto modify(PatchDto patchDto, String url) {
+        Comment comment = commentRepository.findByIdAndPasswordAndUrl(patchDto.getId(), patchDto.getPassword(), url);
 
-        comment.setContent(content);
+        comment.setContent(patchDto.getContent());
+        comment.setDate(Date.of(LocalDateTime.now()));
 
-        return commentRepository.save(comment);
+        return commentRepository.save(comment).getResponseDto();
     }
 
     public ResponseDto delete(DeleteDto deleteDto, String url) {
