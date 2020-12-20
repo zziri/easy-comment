@@ -1,9 +1,10 @@
 package com.zziri.comment.service;
 
-import com.zziri.comment.controller.dto.DeleteDto;
-import com.zziri.comment.domain.Comment;
 import com.zziri.comment.controller.dto.CommentDto;
-import com.zziri.comment.domain.dto.Date;
+import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PostDto;
+import com.zziri.comment.controller.dto.ResponseDto;
+import com.zziri.comment.domain.Comment;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,16 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comment put(CommentDto commentDto) {
-        commentDto.setDate(LocalDateTime.now());
-        commentDto.setUrl(
-                commentDto.getUrl()
-                        .replace("https://", "")
-                        .replace("http://", "")
-        );
-        return commentRepository.save(Comment.fromDto(commentDto));
+    public ResponseDto put(PostDto postDto, String url) {
+        url = url
+                .replace("https://", "")
+                .replace("http://", "");
+        CommentDto commentDto = CommentDto.of(LocalDateTime.now(), postDto.getAuthor(), url, postDto.getContent(), postDto.getPassword());
+
+        return commentRepository.save(Comment.fromDto(commentDto)).getResponseDto();
     }
 
     public void put(Comment comment) {
-        comment.setDate(Date.of(LocalDateTime.now()));
         commentRepository.save(comment);
     }
 
@@ -67,8 +66,8 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment delete(DeleteDto deleteDto) {
-        Comment comment = commentRepository.findByIdAndPassword(deleteDto.getId(), deleteDto.getPassword());
+    public Comment delete(DeleteDto deleteDto, String url) {
+        Comment comment = commentRepository.findByIdAndPasswordAndUrl(deleteDto.getId(), deleteDto.getPassword(), url);
 
         comment.setDeleted(true);
 

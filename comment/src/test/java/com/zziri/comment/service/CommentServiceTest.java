@@ -1,6 +1,7 @@
 package com.zziri.comment.service;
 
 import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.controller.dto.CommentDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,17 +28,17 @@ class CommentServiceTest {
 
     @Test
     void put() {
-        commentService.put(CommentDto.of(LocalDateTime.now(), "jihoon", "comment.zziri.com", "Hello!@#!#@", "1111"));
-        List<Comment> commentList = commentService.getCommentsAll();
-        assertThat(commentList.size()).isEqualTo(1);
-        assertThat(commentList.get(0).getAuthor()).isEqualTo("jihoon");
+        commentService.put(PostDto.of("jihoon", "aododfjsk123123", "Hello World"), "conment.zziri.com");
+        List<Comment> comments = commentService.getCommentsAll();
+        assertThat(comments.size()).isEqualTo(1);
+        assertThat(comments.get(0).getAuthor()).isEqualTo("jihoon");
     }
 
     @Test
     void deleted() {
         commentService.put(new Comment("author", "this is url", "hello world", "1111"));
         Comment comment = commentService.getCommentsAll().get(0);
-        commentService.delete(DeleteDto.of(comment.getId(), comment.getPassword()));
+        commentService.delete(DeleteDto.of(comment.getId(), comment.getPassword()), comment.getUrl());
         assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
         List<Comment> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
@@ -66,7 +67,7 @@ class CommentServiceTest {
         commentService.put(origin);
         Comment target = commentService.getCommentsAll().get(0);
 
-        commentService.delete(DeleteDto.of(target.getId(), target.getPassword()));
+        commentService.delete(DeleteDto.of(target.getId(), target.getPassword()), target.getUrl());
 
         Comment comment = commentService.getCommentById(target.getId());
         assertThat(comment).isEqualTo(null);

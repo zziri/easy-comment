@@ -1,6 +1,8 @@
 package com.zziri.comment.controller;
 
 import com.zziri.comment.controller.dto.DeleteDto;
+import com.zziri.comment.controller.dto.PostDto;
+import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.service.CommentService;
@@ -18,8 +20,8 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment post(@RequestBody CommentDto commentDto) {
-        return commentService.put(commentDto);
+    public ResponseDto post(@RequestBody PostDto postDto, @RequestParam("url") String url) {
+        return commentService.put(postDto, url);
     }
 
     @GetMapping
@@ -36,7 +38,7 @@ public class CommentController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Comment delete(@RequestBody DeleteDto deleteDto) {
-        return commentService.delete(deleteDto);
+    public Comment delete(@RequestBody DeleteDto deleteDto, @RequestParam("url") String url) {
+        return commentService.delete(deleteDto, url);
     }
 }

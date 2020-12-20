@@ -32,6 +32,10 @@ public class Date {
 
     @Override
     public String toString() {
-        return LocalDateTime.of(this.year, this.month, this.day, this.hour, this.min, this.sec).toString();
+        return this.toLocalDateTime().toString();
+    }
+
+    public LocalDateTime toLocalDateTime() {
+        return LocalDateTime.of(this.year, this.month, this.day, this.hour, this.min, this.sec);
     }
 }
