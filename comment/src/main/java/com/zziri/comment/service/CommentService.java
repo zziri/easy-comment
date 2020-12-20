@@ -23,6 +23,9 @@ public class CommentService {
         url = url
                 .replace("https://", "")
                 .replace("http://", "");
+
+        // To Do : dto 거치지 않고 바로 보내는 방법 고민
+
         CommentDto commentDto = CommentDto.of(LocalDateTime.now(), postDto.getAuthor(), url, postDto.getContent(), postDto.getPassword());
 
         return commentRepository.save(Comment.fromDto(commentDto)).getResponseDto();
