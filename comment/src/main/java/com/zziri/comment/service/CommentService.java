@@ -25,7 +25,7 @@ public class CommentService {
 
         Comment comment = new Comment(Date.of(LocalDateTime.now()), postDto.getAuthor(), url, postDto.getContent(), postDto.getPassword());
 
-        return commentRepository.save(comment).getResponseDto();
+        return commentRepository.save(comment).toResponseDto();
     }
 
     public void put(Comment comment) {
@@ -41,7 +41,7 @@ public class CommentService {
     }
 
     public List<ResponseDto> getCommentsByUrl(String url) {
-        return commentRepository.findByUrl(url).stream().map(Comment::getResponseDto).collect(Collectors.toList());
+        return commentRepository.findByUrl(url).stream().map(Comment::toResponseDto).collect(Collectors.toList());
     }
 
     public List<Comment> getCommentsAll() {
@@ -58,7 +58,7 @@ public class CommentService {
         comment.setContent(patchDto.getContent());
         comment.setDate(Date.of(LocalDateTime.now()));
 
-        return commentRepository.save(comment).getResponseDto();
+        return commentRepository.save(comment).toResponseDto();
     }
 
     public ResponseDto delete(DeleteDto deleteDto, String url) {

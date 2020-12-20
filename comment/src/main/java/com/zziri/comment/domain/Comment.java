@@ -1,6 +1,5 @@
 package com.zziri.comment.domain;
 
-import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.dto.Date;
 import lombok.AllArgsConstructor;
@@ -54,15 +53,7 @@ public class Comment {
     @ColumnDefault("0")
     private boolean deleted;
 
-    static public Comment fromDto(CommentDto commentDto) {
-        return new Comment(Date.of(commentDto.getDate()), commentDto.getAuthor(), commentDto.getUrl(), commentDto.getContent(), commentDto.getPassword());
-    }
-
-    static public CommentDto toDto(Comment comment) {
-        return CommentDto.of(comment.getDate().toLocalDateTime(), comment.getAuthor(), comment.getUrl(), comment.getContent(), comment.getPassword());
-    }
-
-    public ResponseDto getResponseDto() {
+    public ResponseDto toResponseDto() {
         return ResponseDto.of(id, author, content, date.toLocalDateTime());
     }
 }
