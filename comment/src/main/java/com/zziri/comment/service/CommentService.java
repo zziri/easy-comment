@@ -69,11 +69,10 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment delete(DeleteDto deleteDto, String url) {
+    public ResponseDto delete(DeleteDto deleteDto, String url) {
         Comment comment = commentRepository.findByIdAndPasswordAndUrl(deleteDto.getId(), deleteDto.getPassword(), url);
-
         comment.setDeleted(true);
-
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+        return null;
     }
 }

@@ -4,7 +4,6 @@ import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class CommentController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Comment delete(@RequestBody DeleteDto deleteDto, @RequestParam("url") String url) {
+    public ResponseDto delete(@RequestBody DeleteDto deleteDto, @RequestParam("url") String url) {
         return commentService.delete(deleteDto, url);
     }
 }
