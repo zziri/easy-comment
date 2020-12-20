@@ -1,7 +1,8 @@
 package com.zziri.comment.service;
 
+import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,11 +67,8 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment delete(Long id) {
-        Comment comment = this.getCommentById(id);
-        if (comment == null) {
-            return null;
-        }
+    public Comment delete(DeleteDto deleteDto) {
+        Comment comment = commentRepository.findByIdAndPassword(deleteDto.getId(), deleteDto.getPassword());
 
         comment.setDeleted(true);
 

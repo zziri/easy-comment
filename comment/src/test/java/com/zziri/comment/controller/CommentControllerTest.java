@@ -2,8 +2,9 @@ package com.zziri.comment.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.service.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -134,23 +135,22 @@ class CommentControllerTest {
 
         Comment target = commentService.getCommentsAll().get(0);
 
+        DeleteDto deleteDto = DeleteDto.of(target.getId(), target.getPassword());
+
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/comment")
-                .param("id", target.getId().toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(deleteDto))
         )
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.author").value(origin.getAuthor()))
-                .andExpect(jsonPath("$.url").value(origin.getUrl()))
-                .andExpect(jsonPath("$.content").value(origin.getContent()));
-
-        assertThat(commentService.getCommentById(target.getId())).isEqualTo(null);
-
-        List<Comment> result = commentService.getCommentsByUrl("this is url");
-        assertThat(result.size()).isEqualTo(0);
+                .andExpect(status().isNoContent());
     }
 
     private String toJson(CommentDto commentDto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(commentDto);
+    }
+
+    private String toJson(DeleteDto deleteDto) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(deleteDto);
     }
 }

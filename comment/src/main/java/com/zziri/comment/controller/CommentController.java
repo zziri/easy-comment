@@ -1,7 +1,8 @@
 package com.zziri.comment.controller;
 
+import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class CommentController {
     }
 
     @DeleteMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Comment delete(@RequestParam("id") Long id) {
-        return commentService.delete(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Comment delete(@RequestBody DeleteDto deleteDto) {
+        return commentService.delete(deleteDto);
     }
 }

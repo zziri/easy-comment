@@ -1,7 +1,8 @@
 package com.zziri.comment.service;
 
+import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.domain.dto.CommentDto;
+import com.zziri.comment.controller.dto.CommentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
@@ -37,7 +37,7 @@ class CommentServiceTest {
     void deleted() {
         commentService.put(new Comment("author", "this is url", "hello world", "1111"));
         Comment comment = commentService.getCommentsAll().get(0);
-        commentService.delete(comment.getId());
+        commentService.delete(DeleteDto.of(comment.getId(), comment.getPassword()));
         assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
         List<Comment> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
@@ -64,14 +64,11 @@ class CommentServiceTest {
         );
 
         commentService.put(origin);
-        Long id = commentService.getCommentsAll().get(0).getId();
+        Comment target = commentService.getCommentsAll().get(0);
 
-        commentService.delete(id);
+        commentService.delete(DeleteDto.of(target.getId(), target.getPassword()));
 
-        List<Comment> result = commentService.getCommentsByUrl("url");
-        assertThat(result.size()).isEqualTo(0);
-
-        Comment comment = commentService.getCommentById(id);
+        Comment comment = commentService.getCommentById(target.getId());
         assertThat(comment).isEqualTo(null);
     }
 }
