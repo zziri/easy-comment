@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -42,12 +43,11 @@ public class CommentService {
         return ret.isDeleted() ? null : ret;
     }
 
-    public List<Comment> getCommentsByUrl(String url) {
-        return commentRepository.findByUrl(
-                url
-                        .replace("http://", "")
-                        .replace("https://", "")
-        );
+    public List<ResponseDto> getCommentsByUrl(String url) {
+        url = url
+                .replace("http://", "")
+                .replace("https://", "");
+        return commentRepository.findByUrl(url).stream().map(Comment::getResponseDto).collect(Collectors.toList());
     }
 
     public List<Comment> getCommentsAll() {

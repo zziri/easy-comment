@@ -6,6 +6,7 @@ import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.domain.Comment;
+import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.service.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,6 +63,7 @@ class CommentControllerTest {
     @Test
     void getComments() throws Exception {
         Comment input = getComment();
+        input.setDate(Date.of(LocalDateTime.now()));
         commentService.put(input);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/comment")
@@ -67,8 +71,7 @@ class CommentControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].author").value(input.getAuthor()))
-                .andExpect(jsonPath("$.[0].content").value(input.getContent()))
-                .andExpect(jsonPath("$.[0].url").value(input.getUrl()));
+                .andExpect(jsonPath("$.[0].content").value(input.getContent()));
     }
 
     @Test

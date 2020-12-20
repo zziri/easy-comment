@@ -2,15 +2,14 @@ package com.zziri.comment.service;
 
 import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.controller.dto.PostDto;
+import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
-import com.zziri.comment.controller.dto.CommentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +39,7 @@ class CommentServiceTest {
         Comment comment = commentService.getCommentsAll().get(0);
         commentService.delete(DeleteDto.of(comment.getId(), comment.getPassword()), comment.getUrl());
         assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
-        List<Comment> result = commentService.getCommentsByUrl("this is url");
+        List<ResponseDto> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
     }
 
