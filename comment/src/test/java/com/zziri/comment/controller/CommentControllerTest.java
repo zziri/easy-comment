@@ -2,7 +2,6 @@ package com.zziri.comment.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zziri.comment.controller.dto.CommentDto;
 import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.controller.dto.PatchDto;
 import com.zziri.comment.controller.dto.PostDto;
@@ -112,10 +111,6 @@ class CommentControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isNoContent());
-    }
-
-    private String toJson(CommentDto dto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(dto);
     }
 
     private String toJson(DeleteDto dto) throws JsonProcessingException {
