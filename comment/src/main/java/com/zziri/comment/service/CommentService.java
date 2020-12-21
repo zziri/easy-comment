@@ -18,12 +18,12 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public ResponseDto put(PostDto postDto, String url) {
+    public ResponseDto put(String author, String password, String content, String url) {
         url = url
                 .replace("https://", "")
                 .replace("http://", "");
 
-        Comment comment = new Comment(Date.of(LocalDateTime.now()), postDto.getAuthor(), url, postDto.getContent(), postDto.getPassword());
+        Comment comment = new Comment(Date.of(LocalDateTime.now()), author, url, content, password);
 
         return commentRepository.save(comment).toResponseDto();
     }

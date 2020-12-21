@@ -20,7 +20,7 @@ public class CommentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDto post(@RequestBody PostDto postDto, @RequestParam("url") String url) {
-        return commentService.put(postDto, url);
+        return commentService.put(postDto.getAuthor(), postDto.getPassword(), postDto.getContent(), url);
     }
 
     @GetMapping

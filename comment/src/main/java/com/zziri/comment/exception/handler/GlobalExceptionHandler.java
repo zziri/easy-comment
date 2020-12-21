@@ -21,6 +21,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("서버 오류 : {}", ex.getMessage(), ex);
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "Http Message Not Readable 오류가 발생했습니다");
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "HttpMessageNotReadable 예외가 발생했습니다");
     }
 }

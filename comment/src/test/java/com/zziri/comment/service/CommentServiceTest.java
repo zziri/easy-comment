@@ -28,7 +28,8 @@ class CommentServiceTest {
 
     @Test
     void put() {
-        commentService.put(PostDto.of("jihoon", "aododfjsk123123", "Hello World"), "conment.zziri.com");
+        PostDto dto = PostDto.of("jihoon", "aododfjsk123123", "Hello World");
+        commentService.put(dto.getAuthor(), dto.getPassword(), dto.getContent(), "conment.zziri.com");
         List<Comment> comments = commentService.getCommentsAll();
         assertThat(comments.size()).isEqualTo(1);
         assertThat(comments.get(0).getAuthor()).isEqualTo("jihoon");
