@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,7 +29,8 @@ class CommentControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private CommentController commentController;
-
+    @Autowired
+    private WebApplicationContext wac;
     @Autowired
     private CommentService commentService;
 
@@ -36,7 +38,7 @@ class CommentControllerTest {
 
     @BeforeEach
     void beforeEach() {
-        mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         commentService.clear();
     }
 
@@ -55,6 +57,21 @@ class CommentControllerTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.author").value(postDto.getAuthor()))
                 .andExpect(jsonPath("$.content").value(postDto.getContent()));
+    }
+
+    @Test
+    void wrongPost() throws Exception {
+        Comment comment = getComment();
+        PostDto dto = PostDto.of(comment.getAuthor(), comment.getPassword(), "");
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/comment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(dto))
+                .param("url", comment.getUrl()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400));
+
     }
 
     @Test
