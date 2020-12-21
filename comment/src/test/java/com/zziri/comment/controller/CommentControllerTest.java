@@ -70,8 +70,8 @@ class CommentControllerTest {
                 .content(toJson(dto))
                 .param("url", comment.getUrl()))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(400));
-
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("Paramater가 잘못되었습니다"));
     }
 
     @Test
