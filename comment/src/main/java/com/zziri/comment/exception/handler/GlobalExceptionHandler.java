@@ -1,5 +1,6 @@
 package com.zziri.comment.exception.handler;
 
+import com.zziri.comment.exception.ParameterException;
 import com.zziri.comment.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,5 +23,11 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("서버 오류 : {}", ex.getMessage(), ex);
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "HttpMessageNotReadable 예외가 발생했습니다");
+    }
+    @ExceptionHandler(value = ParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleParameterException(ParameterException ex) {
+        log.error("서버 오류 : {}", ex.getMessage(), ex);
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }

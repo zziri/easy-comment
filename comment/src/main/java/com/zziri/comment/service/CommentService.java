@@ -3,6 +3,7 @@ package com.zziri.comment.service;
 import com.zziri.comment.controller.dto.*;
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.domain.dto.Date;
+import com.zziri.comment.exception.ParameterException;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public ResponseDto put(String author, String password, String content, String url) {
+        if (author.trim().isEmpty() || password.trim().isEmpty() || url.trim().isEmpty() || content.trim().isEmpty()) {
+            throw new ParameterException();
+        }
+
         url = url
                 .replace("https://", "")
                 .replace("http://", "");
