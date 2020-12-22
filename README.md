@@ -2,15 +2,9 @@
 
 spring boot를 이용한 댓글 서비스 REST API 서버입니다
 
-## REST API 사용법
+## 댓글 등록하기
 
-REST API를 사용하는 방법을 설명합니다
-
-### 댓글 등록하기
-
-댓글을 등록하는 기능 사용방법입니다
-
-#### Request
+### Request
 
 요청 URL : $server_ip:8080/api/comment
 
@@ -27,7 +21,7 @@ Body :
 
 content-type: application/json
 
-#### Response
+### Response
 
 Http Status Code: 201 (Created)
 
@@ -41,7 +35,7 @@ Body:
 }
 ```
 
-#### Example
+### Example
 
 request:
 ```shell
