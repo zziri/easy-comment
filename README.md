@@ -37,8 +37,6 @@ Content-Type: application/json
 
 ## 댓글 목록 가져오기
 
-### Request
-
 `/api/comment` url로 GET 요청을 보내서 댓글 목록을 가져올 수 있습니다
 
 ### Request
