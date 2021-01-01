@@ -4,6 +4,7 @@ import com.zziri.comment.controller.dto.*;
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.exception.ParameterException;
+import com.zziri.comment.exception.notFoundException;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,10 +58,13 @@ public class CommentService {
         commentRepository.deleteAll();
     }
 
-    public ResponseDto modify(PatchDto patchDto, String url) {
-        Comment comment = commentRepository.findByIdAndPasswordAndUrl(patchDto.getId(), patchDto.getPassword(), url);
+    public ResponseDto modify(Long id, String password, String content, String url) {
+        Comment comment = commentRepository.findByIdAndPasswordAndUrl(id, password, url);
 
-        comment.setContent(patchDto.getContent());
+        if (comment == null)
+            throw new notFoundException();
+
+        comment.setContent(content);
         comment.setDate(Date.of(LocalDateTime.now()));
 
         return commentRepository.save(comment).toResponseDto();

@@ -49,7 +49,7 @@ class CommentServiceTest {
     void modify() {
         commentService.put(new Comment("author", "this is url", "hello world", "1111"));
         Comment target = commentService.getCommentsAll().get(0);
-        commentService.modify(PatchDto.of(target.getId(), target.getPassword(), "modified content"), target.getUrl());
+        commentService.modify(target.getId(), target.getPassword(), "modified content", target.getUrl());
         Comment modified = commentService.getCommentById(target.getId());
         assertThat(modified.getContent()).isEqualTo("modified content");
     }

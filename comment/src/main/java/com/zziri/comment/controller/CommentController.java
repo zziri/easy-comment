@@ -31,8 +31,8 @@ public class CommentController {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseDto patch(@RequestBody PatchDto patchDto, @RequestParam("url") String url) {
-        return commentService.modify(patchDto, url);
+    public ResponseDto patch(@RequestBody PatchDto dto, @RequestParam("url") String url) {
+        return commentService.modify(dto.getId(), dto.getPassword(), dto.getContent(), url);
     }
 
     @DeleteMapping
