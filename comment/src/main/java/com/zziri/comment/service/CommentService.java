@@ -4,7 +4,7 @@ import com.zziri.comment.controller.dto.*;
 import com.zziri.comment.domain.Comment;
 import com.zziri.comment.domain.dto.Date;
 import com.zziri.comment.exception.ParameterException;
-import com.zziri.comment.exception.notFoundException;
+import com.zziri.comment.exception.CommentNotFoundException;
 import com.zziri.comment.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +62,7 @@ public class CommentService {
         Comment comment = commentRepository.findByIdAndPasswordAndUrl(id, password, url);
 
         if (comment == null)
-            throw new notFoundException();
+            throw new CommentNotFoundException();
 
         comment.setContent(content);
         comment.setDate(Date.of(LocalDateTime.now()));
