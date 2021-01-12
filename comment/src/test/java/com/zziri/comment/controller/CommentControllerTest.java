@@ -49,9 +49,9 @@ class CommentControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/comment")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(postDto))
-                .param("url", comment.getUrl()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(postDto))
+                        .param("url", comment.getUrl()))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -66,9 +66,9 @@ class CommentControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/comment")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(dto))
-                .param("url", comment.getUrl()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(dto))
+                        .param("url", comment.getUrl()))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
                 .andExpect(jsonPath("$.message").value("Paramater가 잘못되었습니다"));
@@ -100,14 +100,28 @@ class CommentControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.patch("/api/comment")
                         .param("url", target.getUrl())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(patchDto))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(patchDto))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.author").value(target.getAuthor()))
                 .andExpect(jsonPath("$.content").value("modified content"))
                 .andExpect(jsonPath("$.id").value(target.getId().toString()));
+    }
+
+    @Test
+    void modifyFailFindComment() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/api/comment")
+                        .param("url", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(PatchDto.of(0L, "", "")))
+        )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("댓글을 찾지 못했습니다"));
     }
 
     @Test
