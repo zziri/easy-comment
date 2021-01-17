@@ -70,8 +70,8 @@ public class CommentService {
         return commentRepository.save(comment).toResponseDto();
     }
 
-    public ResponseDto delete(DeleteDto deleteDto, String url) {
-        Comment comment = commentRepository.findByIdAndPasswordAndUrl(deleteDto.getId(), deleteDto.getPassword(), url);
+    public ResponseDto delete(Long id, String password, String url) {
+        Comment comment = commentRepository.findByIdAndPasswordAndUrl(id, password, url);
         comment.setDeleted(true);
         commentRepository.save(comment);
         return null;

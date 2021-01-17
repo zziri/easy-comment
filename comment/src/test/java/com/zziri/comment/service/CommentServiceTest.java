@@ -1,7 +1,6 @@
 package com.zziri.comment.service;
 
 import com.zziri.comment.controller.dto.DeleteDto;
-import com.zziri.comment.controller.dto.PatchDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
@@ -39,7 +38,7 @@ class CommentServiceTest {
     void deleted() {
         commentService.put(new Comment("author", "this is url", "hello world", "1111"));
         Comment comment = commentService.getCommentsAll().get(0);
-        commentService.delete(DeleteDto.of(comment.getId(), comment.getPassword()), comment.getUrl());
+        commentService.delete(comment.getId(), comment.getPassword(), comment.getUrl());
         assertThat(commentService.getCommentById(comment.getId())).isEqualTo(null);
         List<ResponseDto> result = commentService.getCommentsByUrl("this is url");
         assertThat(result.size()).isEqualTo(0);
@@ -66,7 +65,7 @@ class CommentServiceTest {
         commentService.put(origin);
         Comment target = commentService.getCommentsAll().get(0);
 
-        commentService.delete(DeleteDto.of(target.getId(), target.getPassword()), target.getUrl());
+        commentService.delete(target.getId(), target.getPassword(), target.getUrl());
 
         Comment comment = commentService.getCommentById(target.getId());
         assertThat(comment).isEqualTo(null);

@@ -38,6 +38,6 @@ public class CommentController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseDto delete(@RequestBody DeleteDto deleteDto, @RequestParam("url") String url) {
-        return commentService.delete(deleteDto, url);
+        return commentService.delete(deleteDto.getId(), deleteDto.getPassword(), url);
     }
 }
