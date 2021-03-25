@@ -1,6 +1,6 @@
 # easy-comment
 
-spring boot를 이용한 댓글 서비스 REST API 서버입니다
+spring boot를 이용한 댓글 서비스 API 서버입니다
 
 ## 댓글 등록하기
 
