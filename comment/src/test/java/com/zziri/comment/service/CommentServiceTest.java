@@ -1,6 +1,5 @@
 package com.zziri.comment.service;
 
-import com.zziri.comment.controller.dto.DeleteDto;
 import com.zziri.comment.controller.dto.PostDto;
 import com.zziri.comment.controller.dto.ResponseDto;
 import com.zziri.comment.domain.Comment;
